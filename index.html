@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Klaus's Store — Shop{% endblock %}
+{% block content %}
+<section class="hero"><div><p class="tag">YOUTH FASHION • SERENJE</p><h1>Style that fits your move.</h1><p>Shop boutique clothing and footwear from Klaus's Store.</p><a class="btn" href="#products">Shop now</a></div></section>
+<form class="filters" method="get"><input name="q" value="{{q}}" placeholder="Search products..."><select name="category"><option value="">All categories</option>{% for c in categories %}<option {% if c==category %}selected{% endif %}>{{c}}</option>{% endfor %}</select><button>Search</button></form>
+<div id="products" class="grid">{% for p in products %}<article class="card">
+{% if p.image %}<img src="{{url_for('static',filename=p.image)}}" alt="{{p.name}}">{% else %}<div class="placeholder">KLAUS'S STORE</div>{% endif %}
+<div class="pad"><span class="tag">{{p.category}}</span><h3>{{p.name}}</h3><p>Size: {{p.size}} · {{p.colour}}</p><strong>K{{"{:,}".format(p.price)}}</strong><p class="{% if p.stock==0 %}out{% endif %}">{{p.stock}} in stock</p>
+<div class="actions"><a class="btn secondary" href="{{url_for('product',pid=p.id)}}">View</a>{% if p.stock %}<form method="post" action="{{url_for('cart_add',pid=p.id)}}"><input type="hidden" name="csrf_token" value="{{csrf_token()}}"><input type="hidden" name="quantity" value="1"><button class="btn">Add to cart</button></form>{% endif %}</div></div></article>{% else %}<p>No products found.</p>{% endfor %}</div>
+{% endblock %}

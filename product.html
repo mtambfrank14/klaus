@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block content %}
+<div class="detail">{% if product.image %}<img src="{{url_for('static',filename=product.image)}}" alt="{{product.name}}">{% else %}<div class="placeholder">KLAUS'S STORE</div>{% endif %}
+<div><span class="tag">{{product.category}}</span><h1>{{product.name}}</h1><h2>K{{"{:,}".format(product.price)}}</h2><p>Size: {{product.size}}</p><p>Colour: {{product.colour}}</p><p>Stock: {{product.stock}}</p>{% if product.stock %}<form method="post" action="{{url_for('cart_add',pid=product.id)}}" class="row"><input type="hidden" name="csrf_token" value="{{csrf_token()}}"><input class="small" type="number" min="1" max="{{product.stock}}" name="quantity" value="1"><button class="btn">Add to cart</button></form>{% endif %}</div></div>
+{% endblock %}
